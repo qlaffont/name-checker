@@ -32,7 +32,29 @@ const lng: typeof enDict = {
   },
   pages: {
     home: {
-      hello: 'Bienvenue tout le monde !',
+      title: 'Vérificateur de nom',
+      description:
+        'Avec cet outil, vous pouvez vérifier si votre nom est disponible sur les noms de domaine et sur les réseaux sociaux !',
+      search: 'Valider mon nom',
+      searchPlaceholder: 'Veuillez insérer un nom',
+      codedBy: 'Codé par Quentin Laffont',
+      results: {
+        title: 'Résultats pour {{name}} :',
+        domains: 'Noms de domaine',
+        socialNetworks: {
+          title: 'Réseaux sociaux',
+          facebook: 'Facebook',
+          twitter: 'Twitter',
+          instagram: 'Instagram',
+          titkok: 'Tiktok',
+        },
+        mediaPlatforms: {
+          title: 'Plateformes multimédias',
+          twitch: 'Twitch',
+          youtube: 'Youtube',
+          kick: 'Kick',
+        },
+      },
     },
   },
 };

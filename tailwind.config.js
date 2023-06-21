@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const plugin = require('tailwindcss/plugin');
+/** @type {import('tailwindcss').Config} */
 
 module.exports = {
   darkMode: 'class',
@@ -13,7 +12,7 @@ module.exports = {
   ],
   theme: {
     fontFamily: {
-      sans: ['"Kanit"', '"Helvetica"', '"Arial"', 'sans-serif'],
+      sans: ['var(--font-roboto)'],
     },
     extend: {
       colors: {
@@ -29,13 +28,5 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [
-    require('@tailwindcss/forms'),
-    require('@tailwindcss/line-clamp'),
-    plugin(function ({ addComponents }) {
-      const components = {};
-
-      addComponents(components);
-    }),
-  ],
+  plugins: [require('@tailwindcss/forms'), require('@tailwindcss/line-clamp')],
 };

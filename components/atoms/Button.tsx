@@ -63,6 +63,7 @@ export const Button: React.FC<{
       'hover:opacity-60',
       disabled ? '!opacity-30' : '',
       className,
+      'disabled:cursor-not-allowed disabled:opacity-60',
     )}
     disabled={disabled || isLoading}
     type={type}
@@ -71,7 +72,11 @@ export const Button: React.FC<{
     {isLoading && (
       <div>
         <i
-          className={clsx('icon icon-refresh animate block', iconSizeClassNames[size], iconVariantClassNames[variant])}
+          className={clsx(
+            'icon icon-refresh block animate-spin',
+            iconSizeClassNames[size],
+            iconVariantClassNames[variant],
+          )}
         ></i>
       </div>
     )}

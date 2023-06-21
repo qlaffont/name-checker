@@ -41,6 +41,7 @@ export interface InputProps extends ComponentPropsWithoutRef<'input'> {
   variant?: keyof typeof variantClassNames;
   size?: InputSize;
   className?: string;
+  blockClassName?: string;
   type?: string;
   error?;
   register?: UseFormRegisterReturn;
@@ -65,6 +66,7 @@ export const Input: React.FC<PropsWithoutRef<InputProps> & RefAttributes<HTMLInp
   prefixIconClassName = '',
   suffixIconClassName = '',
   labelClassName = '',
+  blockClassName = '',
   disabled,
   className,
   inputClassName,
@@ -107,6 +109,7 @@ export const Input: React.FC<PropsWithoutRef<InputProps> & RefAttributes<HTMLInp
           sizeClassNames[size],
           disabled ? 'opacity-30' : '',
           isError ? '!border-error ' : '',
+          blockClassName,
         )}
       >
         {prefixIcon && (
@@ -159,7 +162,7 @@ export const Input: React.FC<PropsWithoutRef<InputProps> & RefAttributes<HTMLInp
       {(!!error || helperText) && (
         <p
           className={clsx('mt-1 text-sm', isError ? '!border-error !text-error' : 'text-white text-opacity-80')}
-          dangerouslySetInnerHTML={{ __html: error || helperText }}
+          dangerouslySetInnerHTML={{ __html: error?.message || helperText }}
         ></p>
       )}
     </div>

@@ -1,7 +1,3 @@
-import { getAccessToken, getAndSaveAccessToken, removeAccessToken } from 'next-protected-auth';
-
-import RestAPIService from '../RestAPIService';
-
 export const fetcher = ({
   method,
   headers,
@@ -18,11 +14,7 @@ export const fetcher = ({
   });
 };
 
-export const customFetcher = <TData, TVariables>(
-  query: string,
-  variables?: TVariables,
-  ignoreUnauthorized = false,
-): (() => Promise<TData>) => {
+export const customFetcher = <TData, TVariables>(query: string, variables?: TVariables): (() => Promise<TData>) => {
   return async () => {
     const isMultipart =
       variables && typeof File !== undefined ? !!Object.values(variables).find((v) => v instanceof File) : false;
@@ -60,10 +52,6 @@ export const customFetcher = <TData, TVariables>(
 
     const headers: Record<string, string> = {};
 
-    if (getAccessToken()) {
-      headers.Authorization = `Bearer ${getAccessToken()}`;
-    }
-
     if (!isMultipart) {
       headers['Content-Type'] = 'application/json';
     }
@@ -78,25 +66,6 @@ export const customFetcher = <TData, TVariables>(
 
     if (json.errors) {
       const { message } = json.errors[0] || 'Error..';
-      if ((message.includes('Access denied') || message.includes('Unauthorized')) && !ignoreUnauthorized) {
-        //Try to renew token
-        try {
-          await getAndSaveAccessToken({
-            renewTokenFct: async () => {
-              const { accessToken: accessToken } = await RestAPIService.refresh();
-
-              return accessToken as string;
-            },
-          });
-
-          // Try again
-          return customFetcher(query, variables, true)();
-        } catch (error) {
-          removeAccessToken();
-          window.location.href = `/auth/login?redirectURL=${encodeURIComponent(location?.pathname + location?.search)}`;
-          throw new Error('Unauthorized');
-        }
-      }
 
       throw new Error(message);
     }

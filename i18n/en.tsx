@@ -30,7 +30,28 @@ const lng = {
   },
   pages: {
     home: {
-      hello: 'Hello world !',
+      title: 'Name checker',
+      description: 'With this tool you can check if your name is available on domain names and on social networks !',
+      search: 'Validate my name',
+      searchPlaceholder: 'Please insert a name',
+      codedBy: 'Coded by Quentin Laffont',
+      results: {
+        title: 'Results for {{name}} :',
+        domains: 'Domains',
+        socialNetworks: {
+          title: 'Social Networks',
+          facebook: 'Facebook',
+          twitter: 'Twitter',
+          instagram: 'Instagram',
+          titkok: 'Tiktok',
+        },
+        mediaPlatforms: {
+          title: 'Media Platforms',
+          twitch: 'Twitch',
+          youtube: 'Youtube',
+          kick: 'Kick',
+        },
+      },
     },
   },
 };
