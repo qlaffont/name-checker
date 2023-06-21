@@ -32,9 +32,6 @@ dependencies:
   next:
     specifier: 13.4.6
     version: 13.4.6(@babel/core@7.22.5)(react-dom@18.2.0)(react@18.2.0)(sass@1.63.5)
-  next-protected-auth:
-    specifier: 2.0.155
-    version: 2.0.155(@babel/core@7.22.5)(react-dom@18.2.0)(react@18.2.0)(sass@1.63.5)
   next-seo:
     specifier: 6.0.0
     version: 6.0.0(next@13.4.6)(react-dom@18.2.0)(react@18.2.0)
@@ -5023,23 +5020,6 @@ packages:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
     dev: true
 
-  /next-protected-auth@2.0.155(@babel/core@7.22.5)(react-dom@18.2.0)(react@18.2.0)(sass@1.63.5):
-    resolution: {integrity: sha512-3eYYmnG8eHrkSDoIJvsSIF12/tS6iyY/mlxbBUdlXMoPk6ckvTInH2JZBCFCsizgyksce4oi48WHUKk9ekuMfw==}
-    engines: {node: '>=10'}
-    dependencies:
-      next: 13.4.6(@babel/core@7.22.5)(react-dom@18.2.0)(react@18.2.0)(sass@1.63.5)
-      react-test-renderer: 18.2.0(react@18.2.0)
-      usehooks-ts: 2.9.1(react-dom@18.2.0)(react@18.2.0)
-    transitivePeerDependencies:
-      - '@babel/core'
-      - '@opentelemetry/api'
-      - babel-plugin-macros
-      - fibers
-      - react
-      - react-dom
-      - sass
-    dev: false
-
   /next-seo@6.0.0(next@13.4.6)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-jKKt1p1z4otMA28AyeoAONixVjdYmgFCWwpEFtu+DwRHQDllVX3RjtyXbuCQiUZEfQ9rFPBpAI90vDeLZlMBdg==}
     peerDependencies:
@@ -5675,10 +5655,6 @@ packages:
   /react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
 
-  /react-is@18.2.0:
-    resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
-    dev: false
-
   /react-select@5.7.3(@babel/core@7.22.5)(@types/react@18.2.13)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-z8i3NCuFFWL3w27xq92rBkVI2onT0jzIIPe480HlBjXJ3b5o6Q+Clp4ydyeKrj9DZZ3lrjawwLC5NGl0FSvUDg==}
     peerDependencies:
@@ -5701,16 +5677,6 @@ packages:
       - '@types/react'
     dev: false
 
-  /react-shallow-renderer@16.15.0(react@18.2.0):
-    resolution: {integrity: sha512-oScf2FqQ9LFVQgA73vr86xl2NaOIX73rh+YFqcOp68CWj56tSfgtGKrEbyhCj0rSijyG9M1CYprTh39fBi5hzA==}
-    peerDependencies:
-      react: ^16.0.0 || ^17.0.0 || ^18.0.0
-    dependencies:
-      object-assign: 4.1.1
-      react: 18.2.0
-      react-is: 18.2.0
-    dev: false
-
   /react-simple-animate@3.5.1(react-dom@18.2.0):
     resolution: {integrity: sha512-VpQS4nYU3G8+xU9hMinbeFZqHRVe+rNicec+y+Jaz3kHCV5TlBSkTzoaz/Nycsh2ShoWWfqfhV3Rn8E85QNqZg==}
     peerDependencies:
@@ -5718,17 +5684,6 @@ packages:
     dependencies:
       react-dom: 18.2.0(react@18.2.0)
     dev: true
-
-  /react-test-renderer@18.2.0(react@18.2.0):
-    resolution: {integrity: sha512-JWD+aQ0lh2gvh4NM3bBM42Kx+XybOxCpgYK7F8ugAlpaTSnWsX+39Z4XkOykGZAHrjwwTZT3x3KxswVWxHPUqA==}
-    peerDependencies:
-      react: ^18.2.0
-    dependencies:
-      react: 18.2.0
-      react-is: 18.2.0
-      react-shallow-renderer: 16.15.0(react@18.2.0)
-      scheduler: 0.23.0
-    dev: false
 
   /react-transition-group@4.4.5(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-pZcd1MCJoiKiBR2NRxeCRg13uCXbydPnmB4EOeRrY7480qNWO8IIgQG6zlDkm6uRMsURXPuKq0GWtiM59a5Q6g==}
