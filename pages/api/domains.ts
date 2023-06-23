@@ -2,11 +2,11 @@ import whoiser from 'whoiser';
 import { z } from 'zod';
 import { fromZodError } from 'zod-validation-error';
 
-type DomainResult = {
+export type DomainResult = {
   domainName: string;
   isTaken: boolean;
   createdDate?: Date;
-  expiryDate?: string;
+  expiryDate?: Date;
   registrar?: string;
 };
 
@@ -85,5 +85,5 @@ export default async function handler(req, res) {
     }),
   );
 
-  res.status(200).json(result satisfies DomainResult[]);
+  res.status(200).json({ data: result satisfies DomainResult[] });
 }

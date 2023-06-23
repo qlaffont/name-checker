@@ -2,70 +2,35 @@ export const fetcher = ({
   method,
   headers,
   body,
+  url = '',
 }: {
-  method: 'GET' | 'POST' | 'PUT' | 'DELETE';
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
   headers?: HeadersInit;
   body?: BodyInit | null;
+  url?: string;
 }) => {
-  return fetch(`${process.env.NEXT_PUBLIC_GQL_URL}`, {
-    method,
-    headers,
-    body,
-  });
-};
-
-export const customFetcher = <TData, TVariables>(query: string, variables?: TVariables): (() => Promise<TData>) => {
   return async () => {
-    const isMultipart =
-      variables && typeof File !== undefined ? !!Object.values(variables).find((v) => v instanceof File) : false;
+    const allHeaders: Record<string, string> = {};
 
-    const formData = new FormData();
+    allHeaders['Content-Type'] = `application/json`;
 
-    if (isMultipart) {
-      // https://github.com/jaydenseric/graphql-multipart-request-spec
-      const vars = Object.entries(variables)
-        .map(([k, v]) => (typeof v === 'object' ? (Object.keys(v).length > 0 ? [k, v] : [k, null]) : [k, v]))
-        .reduce((prev, [k, v]) => ({ ...prev, [k]: v }), {});
-      formData.append(
-        'operations',
-        JSON.stringify({
-          query: query,
-          variables: vars,
-        }),
-      );
-      const map = {};
-      const files = [];
-
-      for (const [k, v] of Object.entries(vars)) {
-        if (v === null) {
-          map[Object.keys(map).length] = [`variables.${k}`];
-          files.push(variables[k]);
-        }
-      }
-
-      formData.append('map', JSON.stringify(map));
-
-      for (const [index, file] of files.entries()) {
-        formData.append(`${index}`, file);
+    if (headers) {
+      //@ts-ignore
+      for (const [k, v] of headers.entries()) {
+        allHeaders[k] = v;
       }
     }
 
-    const headers: Record<string, string> = {};
-
-    if (!isMultipart) {
-      headers['Content-Type'] = 'application/json';
-    }
-
-    const res = await fetcher({
-      method: 'POST',
-      headers: headers,
-      body: isMultipart ? formData : JSON.stringify({ query, variables }),
+    const res = await fetch(`${url}`, {
+      method,
+      headers: allHeaders,
+      body,
     });
 
     const json = await res.json();
 
-    if (json.errors) {
-      const { message } = json.errors[0] || 'Error..';
+    if (json.success === false) {
+      const { message } = json || 'Error..';
 
       throw new Error(message);
     }

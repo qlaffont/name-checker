@@ -39,7 +39,7 @@ const lng: typeof enDict = {
       searchPlaceholder: 'Veuillez insérer un nom',
       codedBy: 'Codé par Quentin Laffont',
       results: {
-        title: 'Résultats pour {{name}} :',
+        title: 'Résultats pour "{{name}}" :',
         domains: 'Noms de domaine',
         socialNetworks: {
           title: 'Réseaux sociaux',

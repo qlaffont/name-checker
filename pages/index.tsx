@@ -1,5 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import clsx from 'clsx';
 import Link from 'next/link';
+import { useCallback, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
@@ -7,9 +9,10 @@ import { Button } from '../components/atoms/Button';
 import { FormDevTools } from '../components/atoms/FormDevTool';
 import { Input } from '../components/atoms/Input';
 import { useI18n } from '../i18n/useI18n';
+import { useFindDomainsAvailibilityQuery } from '../services/apis/react-query/queries/findDomainsAvailibilityQuery';
 
 const schema = z.object({
-  search: z.string().min(3),
+  name: z.string().min(3),
 });
 
 type SchemaType = z.infer<typeof schema>;
@@ -17,16 +20,35 @@ type SchemaType = z.infer<typeof schema>;
 const Home = () => {
   const { t } = useI18n();
 
+  const [resultName, setResultName] = useState<string>();
+
+  const { data: dataDomains, isFetching: isLoadingDomains } = useFindDomainsAvailibilityQuery(
+    {
+      name: resultName,
+      domains: ['fr', 'com', 'gg'],
+    },
+    { enabled: !!resultName },
+  );
+
+  const isLoading = useMemo(() => {
+    return isLoadingDomains;
+  }, [isLoadingDomains]);
+
   const {
     register,
     control,
-    formState: { errors },
+    getValues,
+    formState: { errors, isValid },
   } = useForm<SchemaType>({
     resolver: zodResolver(schema),
     mode: 'onChange',
   });
 
-  const result = true;
+  const onSubmit = useCallback(() => {
+    const { name } = getValues();
+
+    setResultName(name);
+  }, []);
 
   return (
     <div className="m-auto mt-12 max-w-[1000px] space-y-8 rounded-lg p-5 shadow-lg dark:shadow-white/50">
@@ -38,15 +60,20 @@ const Home = () => {
       <div className="flex">
         <div className="flex-grow">
           <Input
-            register={register('search')}
+            register={register('name')}
             placeholder={t('pages.home.searchPlaceholder')}
             className="!max-w-none"
             blockClassName="!border-r-0 !rounded-r-none"
-            error={errors?.search}
+            error={errors?.name}
           />
         </div>
         <div>
-          <Button variant="info" className="rounded-l-none !px-4 !py-[0.56rem]">
+          <Button
+            variant="info"
+            className="rounded-l-none !px-4 !py-[0.56rem]"
+            disabled={!isValid || isLoading}
+            onClick={() => onSubmit()}
+          >
             {t('pages.home.search')}
           </Button>
         </div>
@@ -58,38 +85,37 @@ const Home = () => {
         </Link>
       </div>
 
-      {result && (
+      {resultName && (
         <>
           <div className="w-full border-b border-zinc-900 dark:border-white"></div>
 
           <div className="space-y-5">
-            <h2 className="text-lg font-bold">{t('pages.home.results.title', { name: 'text' })}</h2>
+            <h2 className="text-lg font-bold">{t('pages.home.results.title', { name: resultName })}</h2>
 
             <div className="space-y-3">
               <h3 className="font-bold">{t('pages.home.results.domains')}</h3>
 
               <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
-                <Link
-                  href="text.com"
-                  target="_blank"
-                  className="dark:shadow-sm/50 flex items-center gap-2 rounded-md border p-3 shadow-sm hover:opacity-60 dark:border-white"
-                >
-                  <div className="rounded-full bg-green-900/30 p-1">
-                    <i className="icon icon-check block h-6 w-6 bg-green-200"></i>
-                  </div>
-                  <div>text.com</div>
-                </Link>
+                {dataDomains?.map((domainResult) => {
+                  const isAvailable = domainResult.isTaken === false;
 
-                <Link
-                  href="text.com"
-                  target="_blank"
-                  className="dark:shadow-sm/50 flex items-center gap-2 rounded-md border p-3 shadow-sm hover:opacity-60 dark:border-white"
-                >
-                  <div className="rounded-full bg-red-900/30 p-2">
-                    <i className="icon icon-close block h-4 w-4 bg-red-200"></i>
-                  </div>
-                  <div className="line-through opacity-60">text.com</div>
-                </Link>
+                  return (
+                    <Link
+                      key={domainResult.domainName}
+                      href={`https://${domainResult.domainName}`}
+                      target="_blank"
+                      className="dark:shadow-sm/50 flex items-center gap-2 rounded-md border p-3 shadow-sm hover:opacity-60 dark:border-white"
+                    >
+                      <div className={clsx('rounded-full p-1', isAvailable ? 'bg-green-900/30 ' : 'bg-red-900/30')}>
+                        <i className="icon icon-check block h-6 w-6 bg-green-200"></i>
+                      </div>
+
+                      <div className={clsx(isAvailable ? '' : 'line-through opacity-60')}>
+                        {domainResult.domainName}
+                      </div>
+                    </Link>
+                  );
+                })}
               </div>
             </div>
           </div>

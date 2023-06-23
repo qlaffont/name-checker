@@ -36,7 +36,7 @@ const lng = {
       searchPlaceholder: 'Please insert a name',
       codedBy: 'Coded by Quentin Laffont',
       results: {
-        title: 'Results for {{name}} :',
+        title: 'Results for "{{name}}" :',
         domains: 'Domains',
         socialNetworks: {
           title: 'Social Networks',
