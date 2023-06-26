@@ -35,6 +35,7 @@ const lng = {
       search: 'Validate my name',
       searchPlaceholder: 'Please insert a name',
       codedBy: 'Coded by Quentin Laffont',
+      language: 'Français',
       results: {
         title: 'Results for "{{name}}"',
         expiration: 'Expiry on {{date}}',

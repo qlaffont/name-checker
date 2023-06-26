@@ -10,6 +10,7 @@ import { FormDevTools } from '../components/atoms/FormDevTool';
 import { Input } from '../components/atoms/Input';
 import { useI18n } from '../i18n/useI18n';
 import { useFindDomainsAvailibilityQuery } from '../services/apis/react-query/queries/findDomainsAvailibilityQuery';
+import { useDark } from '../services/useDark';
 
 const schema = z.object({
   name: z.string().min(3),
@@ -18,7 +19,9 @@ const schema = z.object({
 type SchemaType = z.infer<typeof schema>;
 
 const Home = () => {
-  const { t, format } = useI18n();
+  const { t, format, actualLang, changeLang } = useI18n();
+
+  const { toggle, isDarkMode } = useDark();
 
   const [resultName, setResultName] = useState<string>();
 
@@ -80,6 +83,23 @@ const Home = () => {
         </div>
       </div>
 
+      <div className="flex items-center justify-center divide-x dark:divide-white">
+        <div className="w-fit cursor-pointer px-2 hover:opacity-60" onClick={() => toggle()}>
+          {isDarkMode ? (
+            <i className="icon icon-sun block h-4 w-4 bg-black dark:bg-white"></i>
+          ) : (
+            <i className="icon icon-moon block h-4 w-4 bg-black dark:bg-white"></i>
+          )}
+        </div>
+
+        <div
+          className="w-fit cursor-pointer px-2 hover:opacity-60"
+          onClick={() => changeLang(actualLang === 'fr' ? 'en' : 'fr')}
+        >
+          {t('pages.home.language')}
+        </div>
+      </div>
+
       <div className="text-center">
         <Link className="text-center underline hover:opacity-60" href="https://qlaffont.com">
           {t('pages.home.codedBy')}
@@ -120,12 +140,15 @@ const Home = () => {
                         <div className="flex h-full items-center justify-between">
                           <div className="flex h-full items-center gap-2">
                             <div
-                              className={clsx('rounded-full p-1', isAvailable ? 'bg-green-900/30 ' : 'bg-red-900/30')}
+                              className={clsx(
+                                'rounded-full p-1',
+                                isAvailable ? 'bg-green-900 dark:bg-green-900/30 ' : 'bg-red-900 dark:bg-red-900/30',
+                              )}
                             >
                               <i
                                 className={clsx(
-                                  'icon block h-6 w-6 bg-green-200',
-                                  isAvailable ? 'icon-check' : 'icon-close',
+                                  'icon block h-6 w-6',
+                                  isAvailable ? 'icon-check bg-green-200' : 'icon-close bg-red-200',
                                 )}
                               ></i>
                             </div>

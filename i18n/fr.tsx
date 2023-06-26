@@ -38,6 +38,7 @@ const lng: typeof enDict = {
       search: 'Valider mon nom',
       searchPlaceholder: 'Veuillez insérer un nom',
       codedBy: 'Codé par Quentin Laffont',
+      language: 'English',
       results: {
         title: 'Résultats pour "{{name}}"',
         expiration: 'Expire le {{date}}',
