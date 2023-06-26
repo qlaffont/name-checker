@@ -72,6 +72,7 @@ const Home = () => {
             variant="info"
             className="w-full !px-4 !py-[0.56rem] md:w-auto md:rounded-l-none"
             disabled={!isValid || isLoading}
+            isLoading={isLoading}
             onClick={() => onSubmit()}
           >
             {t('pages.home.search')}
@@ -90,7 +91,15 @@ const Home = () => {
           <div className="w-full border-b border-zinc-900 dark:border-white"></div>
 
           <div className="space-y-5">
-            <h2 className="text-lg font-bold">{t('pages.home.results.title', { name: resultName })}</h2>
+            <div className="flex gap-2">
+              <div>
+                <h2 className="text-lg font-bold">{t('pages.home.results.title', { name: resultName })}</h2>
+              </div>
+
+              <div>
+                {isLoading && <i className="icon icon-refresh block h-6 w-6 animate-spin bg-black dark:bg-white"></i>}
+              </div>
+            </div>
 
             <div className="space-y-3">
               <h3 className="font-bold">{t('pages.home.results.domains')}</h3>
