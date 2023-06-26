@@ -40,6 +40,7 @@ const lng: typeof enDict = {
       codedBy: 'Codé par Quentin Laffont',
       results: {
         title: 'Résultats pour "{{name}}" :',
+        expiration: 'Expire le {{date}}',
         domains: 'Noms de domaine',
         socialNetworks: {
           title: 'Réseaux sociaux',

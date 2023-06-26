@@ -37,6 +37,7 @@ const lng = {
       codedBy: 'Coded by Quentin Laffont',
       results: {
         title: 'Results for "{{name}}" :',
+        expiration: 'Expiry on {{date}}',
         domains: 'Domains',
         socialNetworks: {
           title: 'Social Networks',

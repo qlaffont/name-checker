@@ -5,7 +5,10 @@ const roboto = Roboto({ weight: ['400', '700'], subsets: ['latin'], variable: '-
 
 export const AppLayout = ({ children }: React.PropsWithChildren) => (
   <div
-    className={clsx(roboto.className, 'inline-block h-screen w-screen px-3 font-sans dark:bg-zinc-900 dark:text-white')}
+    className={clsx(
+      roboto.className,
+      'h-screen w-screen overflow-auto px-3 font-sans dark:bg-zinc-900 dark:text-white',
+    )}
   >
     {children}
   </div>
