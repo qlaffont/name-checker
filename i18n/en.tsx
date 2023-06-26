@@ -1,3 +1,5 @@
+import { Service } from '../pages/api/usernames';
+
 const lng = {
   navbar: {},
   components: {
@@ -42,16 +44,26 @@ const lng = {
         domains: 'Domains',
         socialNetworks: {
           title: 'Social Networks',
-          facebook: 'Facebook',
-          twitter: 'Twitter',
+          [Service.Facebook]: 'Facebook',
+          [Service.Reddit]: 'Reddit',
+          [Service.TikTok]: 'Tiktok',
+          [Service.Twitter]: 'Twitter',
           instagram: 'Instagram',
-          titkok: 'Tiktok',
         },
         mediaPlatforms: {
           title: 'Media Platforms',
-          twitch: 'Twitch',
-          youtube: 'Youtube',
+          [Service.Dailymotion]: 'Dailymotion',
+          [Service.Twitch]: 'Twitch',
+          [Service.YouTube]: 'Youtube',
           kick: 'Kick',
+        },
+        proPlatforms: {
+          title: 'Pro Platforms',
+          [Service.GitHub]: 'GitHub',
+          [Service.Product_Hunt]: 'Product Hunt',
+          [Service.Slack]: 'Slack',
+          [Service.WordPress]: 'WordPress',
+          [Service.Y_Combinator]: 'Y Combinator',
         },
       },
     },

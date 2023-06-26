@@ -2,19 +2,18 @@ import { UsernameChecker } from 'username-checker';
 import { z } from 'zod';
 import { fromZodError } from 'zod-validation-error';
 
-type PlatformResult = {
-  // service: string;
+export type PlatformResult = {
+  service: string;
   url: string;
   available?: boolean;
   reason?: string;
 };
 
-enum Service {
+export enum Service {
   Dailymotion = 'dailymotion',
   Facebook = 'facebook',
   GitHub = 'github',
   PayPal = 'paypal',
-  Pinterest = 'pinterest',
   Product_Hunt = 'producthunt',
   Reddit = 'reddit',
   Slack = 'slack',
@@ -33,7 +32,7 @@ const dataSchema = z.object({
 const usernameChecker = new UsernameChecker();
 
 const getUsernameAvailability = async (service: Service, name: string) => {
-  return (await usernameChecker.isAvailable(service, name)) satisfies PlatformResult;
+  return { ...(await usernameChecker.isAvailable(service, name)), service } satisfies PlatformResult;
 };
 
 export default async function handler(req, res) {

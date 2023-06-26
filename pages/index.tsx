@@ -10,13 +10,65 @@ import { FormDevTools } from '../components/atoms/FormDevTool';
 import { Input } from '../components/atoms/Input';
 import { useI18n } from '../i18n/useI18n';
 import { useFindDomainsAvailibilityQuery } from '../services/apis/react-query/queries/findDomainsAvailibilityQuery';
+import { useFindUsernamesAvailibilityQuery } from '../services/apis/react-query/queries/findUsernamesAvailabilityQuery.ts';
 import { useDark } from '../services/useDark';
+import { Service } from './api/usernames';
 
 const schema = z.object({
   name: z.string().min(3),
 });
 
 type SchemaType = z.infer<typeof schema>;
+
+const ServiceAvailibility = ({
+  service,
+  isAvailable,
+  url,
+  type,
+  t,
+}: {
+  service: Service;
+  isAvailable: boolean;
+  url: string;
+  type: string;
+  t;
+}) => {
+  return (
+    <Link
+      href={url || ''}
+      target="_blank"
+      className="dark:shadow-sm/50 rounded-md border p-3 shadow-sm hover:opacity-60 dark:border-white"
+    >
+      <div className="flex h-full items-center justify-between">
+        <div className="flex h-full items-center gap-2">
+          <div
+            className={clsx(
+              'rounded-full p-1',
+              isAvailable ? 'bg-green-900 dark:bg-green-900/30 ' : 'bg-red-900 dark:bg-red-900/30',
+            )}
+          >
+            <i
+              className={clsx('icon block h-6 w-6', isAvailable ? 'icon-check bg-green-200' : 'icon-close bg-red-200')}
+            ></i>
+          </div>
+
+          <div>
+            <div className={clsx(isAvailable ? '' : 'line-through opacity-60')}>
+              {
+                //@ts-ignore
+                t(`pages.home.results.${type}.${service}`)
+              }
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <i className="icon icon-external block h-4 w-4 bg-black dark:bg-white"></i>
+        </div>
+      </div>
+    </Link>
+  );
+};
 
 const Home = () => {
   const { t, format, actualLang, changeLang } = useI18n();
@@ -33,9 +85,25 @@ const Home = () => {
     { enabled: !!resultName },
   );
 
+  const { data: dataUsernames, isFetching: isLoadingUsernames } = useFindUsernamesAvailibilityQuery(
+    {
+      name: resultName,
+    },
+    { enabled: !!resultName },
+  );
+
+  console.log(dataUsernames);
+
+  const getUsernameAvailabilityByPlatform = useCallback(
+    (service: Service) => {
+      return dataUsernames?.find((v) => v.service === service);
+    },
+    [dataUsernames],
+  );
+
   const isLoading = useMemo(() => {
-    return isLoadingDomains;
-  }, [isLoadingDomains]);
+    return isLoadingDomains || isLoadingUsernames;
+  }, [isLoadingDomains, isLoadingUsernames]);
 
   const {
     register,
@@ -122,7 +190,17 @@ const Home = () => {
             </div>
 
             <div className="space-y-3">
-              <h3 className="font-bold">{t('pages.home.results.domains')}</h3>
+              <div className="flex gap-2">
+                <div>
+                  <h3 className="font-bold">{t('pages.home.results.domains')}</h3>
+                </div>
+
+                <div>
+                  {isLoadingDomains && (
+                    <i className="icon icon-refresh block h-6 w-6 animate-spin bg-black dark:bg-white"></i>
+                  )}
+                </div>
+              </div>
 
               <div className="grid auto-rows-fr grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
                 {dataDomains
@@ -177,6 +255,65 @@ const Home = () => {
                       </Link>
                     );
                   })}
+              </div>
+
+              <div className="flex gap-2">
+                <div>
+                  <h3 className="font-bold">{t('pages.home.results.socialNetworks.title')}</h3>
+                </div>
+
+                <div>
+                  {isLoadingUsernames && (
+                    <i className="icon icon-refresh block h-6 w-6 animate-spin bg-black dark:bg-white"></i>
+                  )}
+                </div>
+              </div>
+
+              <h4 className="text-sm font-bold">{t('pages.home.results.socialNetworks.title')}</h4>
+
+              <div className="grid auto-rows-fr grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
+                {[Service.Facebook, Service.Reddit, Service.TikTok, Service.Twitter].map((service) => (
+                  <ServiceAvailibility
+                    url={getUsernameAvailabilityByPlatform(service)?.url}
+                    isAvailable={getUsernameAvailabilityByPlatform(service)?.available}
+                    service={service}
+                    key={service}
+                    t={t}
+                    type={'socialNetworks'}
+                  />
+                ))}
+              </div>
+
+              <h4 className="text-sm font-bold">{t('pages.home.results.mediaPlatforms.title')}</h4>
+
+              <div className="grid auto-rows-fr grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
+                {[Service.Dailymotion, Service.Twitch, Service.YouTube].map((service) => (
+                  <ServiceAvailibility
+                    url={getUsernameAvailabilityByPlatform(service)?.url}
+                    isAvailable={getUsernameAvailabilityByPlatform(service)?.available}
+                    service={service}
+                    key={service}
+                    t={t}
+                    type={'mediaPlatforms'}
+                  />
+                ))}
+              </div>
+
+              <h4 className="text-sm font-bold">{t('pages.home.results.proPlatforms.title')}</h4>
+
+              <div className="grid auto-rows-fr grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
+                {[Service.GitHub, Service.Product_Hunt, Service.Slack, Service.WordPress, Service.Y_Combinator].map(
+                  (service) => (
+                    <ServiceAvailibility
+                      url={getUsernameAvailabilityByPlatform(service)?.url}
+                      isAvailable={getUsernameAvailabilityByPlatform(service)?.available}
+                      service={service}
+                      key={service}
+                      t={t}
+                      type={'proPlatforms'}
+                    />
+                  ),
+                )}
               </div>
             </div>
           </div>

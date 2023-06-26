@@ -1,3 +1,4 @@
+import { Service } from '../pages/api/usernames';
 import enDict from './en';
 
 const lng: typeof enDict = {
@@ -44,17 +45,27 @@ const lng: typeof enDict = {
         expiration: 'Expire le {{date}}',
         domains: 'Noms de domaine',
         socialNetworks: {
-          title: 'Réseaux sociaux',
-          facebook: 'Facebook',
-          twitter: 'Twitter',
+          title: 'Plateformes multimédias',
+          [Service.Facebook]: 'Facebook',
+          [Service.Reddit]: 'Reddit',
+          [Service.TikTok]: 'Tiktok',
+          [Service.Twitter]: 'Twitter',
           instagram: 'Instagram',
-          titkok: 'Tiktok',
         },
         mediaPlatforms: {
           title: 'Plateformes multimédias',
-          twitch: 'Twitch',
-          youtube: 'Youtube',
+          [Service.Dailymotion]: 'Dailymotion',
+          [Service.Twitch]: 'Twitch',
+          [Service.YouTube]: 'Youtube',
           kick: 'Kick',
+        },
+        proPlatforms: {
+          title: 'Plateformes Pro',
+          [Service.GitHub]: 'GitHub',
+          [Service.Product_Hunt]: 'Product Hunt',
+          [Service.Slack]: 'Slack',
+          [Service.WordPress]: 'WordPress',
+          [Service.Y_Combinator]: 'Y Combinator',
         },
       },
     },
