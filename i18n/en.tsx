@@ -59,11 +59,16 @@ const lng = {
         },
         proPlatforms: {
           title: 'Pro Platforms',
-          [Service.GitHub]: 'GitHub',
           [Service.Product_Hunt]: 'Product Hunt',
           [Service.Slack]: 'Slack',
           [Service.WordPress]: 'WordPress',
           [Service.Y_Combinator]: 'Y Combinator',
+        },
+        devPlatforms: {
+          title: 'Dev Platforms',
+          [Service.GitHub]: 'GitHub',
+          gitlab: 'Gitlab',
+          npmjs: 'NPM',
         },
       },
     },

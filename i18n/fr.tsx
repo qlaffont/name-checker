@@ -61,11 +61,16 @@ const lng: typeof enDict = {
         },
         proPlatforms: {
           title: 'Plateformes Pro',
-          [Service.GitHub]: 'GitHub',
           [Service.Product_Hunt]: 'Product Hunt',
           [Service.Slack]: 'Slack',
           [Service.WordPress]: 'WordPress',
           [Service.Y_Combinator]: 'Y Combinator',
+        },
+        devPlatforms: {
+          title: 'Plateformes de développeur',
+          [Service.GitHub]: 'GitHub',
+          gitlab: 'Gitlab',
+          npmjs: 'NPM',
         },
       },
     },
