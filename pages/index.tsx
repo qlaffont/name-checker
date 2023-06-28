@@ -10,6 +10,7 @@ import { FormDevTools } from '../components/atoms/FormDevTool';
 import { Input } from '../components/atoms/Input';
 import { useI18n } from '../i18n/useI18n';
 import { useFindDomainsAvailibilityQuery } from '../services/apis/react-query/queries/findDomainsAvailibilityQuery';
+import { useFindNPMsAvailibilityQuery } from '../services/apis/react-query/queries/findNPMAvailibilityQuery';
 import { useFindUsernamesAvailibilityQuery } from '../services/apis/react-query/queries/findUsernamesAvailabilityQuery.ts';
 import { useDark } from '../services/useDark';
 import { Service } from './api/usernames';
@@ -27,7 +28,7 @@ const ServiceAvailibility = ({
   type,
   t,
 }: {
-  service: Service;
+  service: Service | string;
   isAvailable: boolean;
   url: string;
   type: string;
@@ -92,7 +93,12 @@ const Home = () => {
     { enabled: !!resultName },
   );
 
-  console.log(dataUsernames);
+  const { data: dataNPM, isFetching: isLoadingNPM } = useFindNPMsAvailibilityQuery(
+    {
+      name: resultName,
+    },
+    { enabled: !!resultName },
+  );
 
   const getUsernameAvailabilityByPlatform = useCallback(
     (service: Service) => {
@@ -102,8 +108,8 @@ const Home = () => {
   );
 
   const isLoading = useMemo(() => {
-    return isLoadingDomains || isLoadingUsernames;
-  }, [isLoadingDomains, isLoadingUsernames]);
+    return isLoadingDomains || isLoadingUsernames || isLoadingNPM;
+  }, [isLoadingDomains, isLoadingUsernames, isLoadingNPM]);
 
   const {
     register,
@@ -271,39 +277,43 @@ const Home = () => {
 
               <h4 className="text-sm font-bold">{t('pages.home.results.socialNetworks.title')}</h4>
 
-              <div className="grid auto-rows-fr grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
-                {[Service.Facebook, Service.Reddit, Service.TikTok, Service.Twitter].map((service) => (
-                  <ServiceAvailibility
-                    url={getUsernameAvailabilityByPlatform(service)?.url}
-                    isAvailable={getUsernameAvailabilityByPlatform(service)?.available}
-                    service={service}
-                    key={service}
-                    t={t}
-                    type={'socialNetworks'}
-                  />
-                ))}
-              </div>
+              {dataUsernames && (
+                <div className="grid auto-rows-fr grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
+                  {[Service.Facebook, Service.Reddit, Service.TikTok, Service.Twitter].map((service) => (
+                    <ServiceAvailibility
+                      url={getUsernameAvailabilityByPlatform(service)?.url}
+                      isAvailable={getUsernameAvailabilityByPlatform(service)?.available}
+                      service={service}
+                      key={service}
+                      t={t}
+                      type={'socialNetworks'}
+                    />
+                  ))}
+                </div>
+              )}
 
               <h4 className="text-sm font-bold">{t('pages.home.results.mediaPlatforms.title')}</h4>
 
-              <div className="grid auto-rows-fr grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
-                {[Service.Dailymotion, Service.Twitch, Service.YouTube].map((service) => (
-                  <ServiceAvailibility
-                    url={getUsernameAvailabilityByPlatform(service)?.url}
-                    isAvailable={getUsernameAvailabilityByPlatform(service)?.available}
-                    service={service}
-                    key={service}
-                    t={t}
-                    type={'mediaPlatforms'}
-                  />
-                ))}
-              </div>
+              {dataUsernames && (
+                <div className="grid auto-rows-fr grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
+                  {[Service.Dailymotion, Service.Twitch, Service.YouTube].map((service) => (
+                    <ServiceAvailibility
+                      url={getUsernameAvailabilityByPlatform(service)?.url}
+                      isAvailable={getUsernameAvailabilityByPlatform(service)?.available}
+                      service={service}
+                      key={service}
+                      t={t}
+                      type={'mediaPlatforms'}
+                    />
+                  ))}
+                </div>
+              )}
 
               <h4 className="text-sm font-bold">{t('pages.home.results.proPlatforms.title')}</h4>
 
-              <div className="grid auto-rows-fr grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
-                {[Service.GitHub, Service.Product_Hunt, Service.Slack, Service.WordPress, Service.Y_Combinator].map(
-                  (service) => (
+              {dataUsernames && (
+                <div className="grid auto-rows-fr grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
+                  {[Service.Product_Hunt, Service.Slack, Service.WordPress, Service.Y_Combinator].map((service) => (
                     <ServiceAvailibility
                       url={getUsernameAvailabilityByPlatform(service)?.url}
                       isAvailable={getUsernameAvailabilityByPlatform(service)?.available}
@@ -312,7 +322,33 @@ const Home = () => {
                       t={t}
                       type={'proPlatforms'}
                     />
-                  ),
+                  ))}
+                </div>
+              )}
+
+              <h4 className="text-sm font-bold">{t('pages.home.results.devPlatforms.title')}</h4>
+
+              <div className="grid auto-rows-fr grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
+                {dataUsernames &&
+                  [Service.GitHub].map((service) => (
+                    <ServiceAvailibility
+                      url={getUsernameAvailabilityByPlatform(service)?.url}
+                      isAvailable={getUsernameAvailabilityByPlatform(service)?.available}
+                      service={service}
+                      key={service}
+                      t={t}
+                      type={'devPlatforms'}
+                    />
+                  ))}
+
+                {dataNPM && (
+                  <ServiceAvailibility
+                    url={dataNPM.url}
+                    isAvailable={dataNPM.isAvailable}
+                    service={'npmjs'}
+                    t={t}
+                    type={'devPlatforms'}
+                  />
                 )}
               </div>
             </div>
