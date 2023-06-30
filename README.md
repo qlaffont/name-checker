@@ -1,4 +1,6 @@
-# STARTER WEB
+# Name Checker
+
+With this tool you can check if your name is available on domain names and on social networks !
 
 ## Server requirements
 
@@ -24,4 +26,3 @@
 - `start` : Start server in production mode
 - `lint` : Lint all files
 - `prepare` : Install husky
-- `update-template` : Update project with template (/!\ Verify result !)
