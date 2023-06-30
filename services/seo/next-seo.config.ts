@@ -1,13 +1,13 @@
 const APP_DEFAULT_SEO = {
-  title: 'App',
-  titleTemplate: '%s | App',
+  title: 'Name Checker',
+  titleTemplate: '%s',
   openGraph: {
     type: 'website',
     locale: 'fr_FR',
   },
   twitter: {
-    handle: '@flexper',
-    site: '@flexper',
+    handle: '@qlaffont',
+    site: '@qlaffont',
     cardType: 'summary_large_image',
   },
 };

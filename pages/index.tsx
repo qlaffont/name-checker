@@ -9,6 +9,7 @@ import * as z from 'zod';
 import { Button } from '../components/atoms/Button';
 import { FormDevTools } from '../components/atoms/FormDevTool';
 import { Input } from '../components/atoms/Input';
+import { SEO } from '../components/atoms/SEO';
 import { Switch } from '../components/atoms/Switch';
 import { useI18n } from '../i18n/useI18n';
 import { useFindDomainsAvailibilityQuery } from '../services/apis/react-query/queries/findDomainsAvailibilityQuery';
@@ -198,7 +199,7 @@ const Home = () => {
       </div>
 
       <div className="text-center">
-        <Link className="text-center underline hover:opacity-60" href="https://qlaffont.com">
+        <Link className="text-center underline hover:opacity-60" href="https://github.com/qlaffont/name-checker">
           {t('pages.home.codedBy')}
         </Link>
       </div>
@@ -420,6 +421,7 @@ const Home = () => {
       )}
 
       <FormDevTools control={control} />
+      <SEO title={t('pages.home.title')} description={t('pages.home.description')} />
     </div>
   );
 };
