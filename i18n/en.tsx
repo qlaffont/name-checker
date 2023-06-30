@@ -1,3 +1,4 @@
+import { Section } from '../pages';
 import { Service } from '../pages/api/usernames';
 
 const lng = {
@@ -42,20 +43,25 @@ const lng = {
         title: 'Results for "{{name}}"',
         expiration: 'Expiry on {{date}}',
         domains: 'Domains',
+        sections: {
+          [Section.DOMAIN]: 'Domains',
+          [Section.SOCIAL]: 'Social Networks',
+          [Section.MEDIA]: 'Media Platforms',
+          [Section.PRO]: 'Pro Platforms',
+          [Section.DEV]: 'Dev Platforms',
+        },
         socialNetworks: {
           title: 'Social Networks',
           [Service.Facebook]: 'Facebook',
           [Service.Reddit]: 'Reddit',
           [Service.TikTok]: 'Tiktok',
           [Service.Twitter]: 'Twitter',
-          instagram: 'Instagram',
         },
         mediaPlatforms: {
           title: 'Media Platforms',
           [Service.Dailymotion]: 'Dailymotion',
           [Service.Twitch]: 'Twitch',
           [Service.YouTube]: 'Youtube',
-          kick: 'Kick',
         },
         proPlatforms: {
           title: 'Pro Platforms',

@@ -3,11 +3,13 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { useCallback, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useBoolean } from 'usehooks-ts';
 import * as z from 'zod';
 
 import { Button } from '../components/atoms/Button';
 import { FormDevTools } from '../components/atoms/FormDevTool';
 import { Input } from '../components/atoms/Input';
+import { Switch } from '../components/atoms/Switch';
 import { useI18n } from '../i18n/useI18n';
 import { useFindDomainsAvailibilityQuery } from '../services/apis/react-query/queries/findDomainsAvailibilityQuery';
 import { useFindNPMsAvailibilityQuery } from '../services/apis/react-query/queries/findNPMAvailibilityQuery';
@@ -71,12 +73,22 @@ const ServiceAvailibility = ({
   );
 };
 
+export enum Section {
+  DOMAIN = 'domain',
+  SOCIAL = 'social',
+  MEDIA = 'media',
+  PRO = 'pro',
+  DEV = 'dev',
+}
+
 const Home = () => {
   const { t, format, actualLang, changeLang } = useI18n();
 
   const { toggle, isDarkMode } = useDark();
 
   const [resultName, setResultName] = useState<string>();
+  const [activeSection, setActiveSection] = useState<Section>(Section.DOMAIN);
+  const { value: isFullDisplayed, setValue: setIsFullDisplayed } = useBoolean();
 
   const { data: dataDomains, isFetching: isLoadingDomains } = useFindDomainsAvailibilityQuery(
     {
@@ -126,6 +138,17 @@ const Home = () => {
 
     setResultName(name);
   }, []);
+
+  const isSectionDisplay = useCallback(
+    (sectionName) => {
+      if (isFullDisplayed) {
+        return true;
+      }
+
+      return activeSection === sectionName;
+    },
+    [isFullDisplayed, activeSection],
+  );
 
   return (
     <div className="m-auto mb-6 mt-12 max-w-[1000px] space-y-8 rounded-lg p-5 shadow-lg dark:shadow-white/50">
@@ -185,172 +208,212 @@ const Home = () => {
           <div className="w-full border-b border-zinc-900 dark:border-white"></div>
 
           <div className="space-y-5">
-            <div className="flex gap-2">
+            <div className="flex flex-wrap items-center justify-between gap-2">
               <div>
                 <h2 className="text-lg font-bold">{t('pages.home.results.title', { name: resultName })}</h2>
               </div>
 
-              <div>
-                {isLoading && <i className="icon icon-refresh block h-6 w-6 animate-spin bg-black dark:bg-white"></i>}
+              <div className="flex flex-wrap items-center gap-2">
+                {isLoading && (
+                  <div>
+                    <i className="icon icon-refresh block h-6 w-6 animate-spin bg-black dark:bg-white"></i>
+                  </div>
+                )}
+
+                <div>
+                  <Switch checked={isFullDisplayed} onClick={() => setIsFullDisplayed((v) => !v)} />
+                </div>
               </div>
             </div>
 
-            <div className="space-y-3">
-              <div className="flex gap-2">
-                <div>
-                  <h3 className="font-bold">{t('pages.home.results.domains')}</h3>
-                </div>
-
-                <div>
-                  {isLoadingDomains && (
-                    <i className="icon icon-refresh block h-6 w-6 animate-spin bg-black dark:bg-white"></i>
-                  )}
-                </div>
-              </div>
-
-              <div className="grid auto-rows-fr grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
-                {dataDomains
-                  ?.sort((a, b) => a.domainName.localeCompare(b.domainName))
-                  .map((domainResult) => {
-                    const isAvailable = domainResult.isTaken === false;
-
-                    return (
-                      <Link
-                        key={domainResult.domainName}
-                        href={`https://${domainResult.domainName}`}
-                        target="_blank"
-                        className="dark:shadow-sm/50 rounded-md border p-3 shadow-sm hover:opacity-60 dark:border-white"
+            {!isFullDisplayed && (
+              <>
+                <div className="mx-auto flex w-auto items-center gap-3 overflow-auto md:w-fit">
+                  {Object.values(Section).map((sectionName) => (
+                    <div key={sectionName}>
+                      <div
+                        onClick={() => {
+                          setActiveSection(sectionName);
+                        }}
+                        className={clsx(
+                          'cursor-pointer rounded-lg px-4 py-1 hover:opacity-60',
+                          sectionName === activeSection ? 'bg-black text-white dark:bg-white dark:text-black' : '',
+                        )}
                       >
-                        <div className="flex h-full items-center justify-between">
-                          <div className="flex h-full items-center gap-2">
-                            <div
-                              className={clsx(
-                                'rounded-full p-1',
-                                isAvailable ? 'bg-green-900 dark:bg-green-900/30 ' : 'bg-red-900 dark:bg-red-900/30',
-                              )}
-                            >
-                              <i
-                                className={clsx(
-                                  'icon block h-6 w-6',
-                                  isAvailable ? 'icon-check bg-green-200' : 'icon-close bg-red-200',
-                                )}
-                              ></i>
-                            </div>
+                        {t(`pages.home.results.sections.${sectionName}`)}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
 
-                            <div>
-                              <div className={clsx(isAvailable ? '' : 'line-through opacity-60')}>
-                                {domainResult.domainName}
+            <div className="space-y-3">
+              {isSectionDisplay(Section.DOMAIN) && (
+                <>
+                  <div className="flex gap-2">
+                    <div>
+                      <h3 className="font-bold">{t('pages.home.results.domains')}</h3>
+                    </div>
+
+                    <div>
+                      {isLoadingDomains && (
+                        <i className="icon icon-refresh block h-6 w-6 animate-spin bg-black dark:bg-white"></i>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="grid auto-rows-fr grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
+                    {dataDomains
+                      ?.sort((a, b) => a.domainName.localeCompare(b.domainName))
+                      .map((domainResult) => {
+                        const isAvailable = domainResult.isTaken === false;
+
+                        return (
+                          <Link
+                            key={domainResult.domainName}
+                            href={`https://${domainResult.domainName}`}
+                            target="_blank"
+                            className="dark:shadow-sm/50 rounded-md border p-3 shadow-sm hover:opacity-60 dark:border-white"
+                          >
+                            <div className="flex h-full items-center justify-between">
+                              <div className="flex h-full items-center gap-2">
+                                <div
+                                  className={clsx(
+                                    'rounded-full p-1',
+                                    isAvailable
+                                      ? 'bg-green-900 dark:bg-green-900/30 '
+                                      : 'bg-red-900 dark:bg-red-900/30',
+                                  )}
+                                >
+                                  <i
+                                    className={clsx(
+                                      'icon block h-6 w-6',
+                                      isAvailable ? 'icon-check bg-green-200' : 'icon-close bg-red-200',
+                                    )}
+                                  ></i>
+                                </div>
+
+                                <div>
+                                  <div className={clsx(isAvailable ? '' : 'line-through opacity-60')}>
+                                    {domainResult.domainName}
+                                  </div>
+                                  {domainResult.registrar && (
+                                    <p className="text-xs line-clamp-1">{domainResult.registrar}</p>
+                                  )}
+                                  {domainResult.expiryDate && (
+                                    <p className="text-xs line-clamp-1">
+                                      {t('pages.home.results.expiration', {
+                                        date: format(new Date(domainResult.expiryDate), 'P'),
+                                      })}
+                                    </p>
+                                  )}
+                                </div>
                               </div>
-                              {domainResult.registrar && (
-                                <p className="text-xs line-clamp-1">{domainResult.registrar}</p>
-                              )}
-                              {domainResult.expiryDate && (
-                                <p className="text-xs line-clamp-1">
-                                  {t('pages.home.results.expiration', {
-                                    date: format(new Date(domainResult.expiryDate), 'P'),
-                                  })}
-                                </p>
-                              )}
+
+                              <div>
+                                <i className="icon icon-external block h-4 w-4 bg-black dark:bg-white"></i>
+                              </div>
                             </div>
-                          </div>
+                          </Link>
+                        );
+                      })}
+                  </div>
+                </>
+              )}
 
-                          <div>
-                            <i className="icon icon-external block h-4 w-4 bg-black dark:bg-white"></i>
-                          </div>
-                        </div>
-                      </Link>
-                    );
-                  })}
-              </div>
-
-              <div className="flex gap-2">
-                <div>
+              {isSectionDisplay(Section.SOCIAL) && (
+                <>
                   <h3 className="font-bold">{t('pages.home.results.socialNetworks.title')}</h3>
-                </div>
 
-                <div>
-                  {isLoadingUsernames && (
-                    <i className="icon icon-refresh block h-6 w-6 animate-spin bg-black dark:bg-white"></i>
+                  {dataUsernames && (
+                    <div className="grid auto-rows-fr grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
+                      {[Service.Facebook, Service.Reddit, Service.TikTok, Service.Twitter].map((service) => (
+                        <ServiceAvailibility
+                          url={getUsernameAvailabilityByPlatform(service)?.url}
+                          isAvailable={getUsernameAvailabilityByPlatform(service)?.available}
+                          service={service}
+                          key={service}
+                          t={t}
+                          type={'socialNetworks'}
+                        />
+                      ))}
+                    </div>
                   )}
-                </div>
-              </div>
-
-              <h4 className="text-sm font-bold">{t('pages.home.results.socialNetworks.title')}</h4>
-
-              {dataUsernames && (
-                <div className="grid auto-rows-fr grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
-                  {[Service.Facebook, Service.Reddit, Service.TikTok, Service.Twitter].map((service) => (
-                    <ServiceAvailibility
-                      url={getUsernameAvailabilityByPlatform(service)?.url}
-                      isAvailable={getUsernameAvailabilityByPlatform(service)?.available}
-                      service={service}
-                      key={service}
-                      t={t}
-                      type={'socialNetworks'}
-                    />
-                  ))}
-                </div>
+                </>
               )}
 
-              <h4 className="text-sm font-bold">{t('pages.home.results.mediaPlatforms.title')}</h4>
+              {isSectionDisplay(Section.MEDIA) && (
+                <>
+                  <h3 className="font-bold">{t('pages.home.results.mediaPlatforms.title')}</h3>
 
-              {dataUsernames && (
-                <div className="grid auto-rows-fr grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
-                  {[Service.Dailymotion, Service.Twitch, Service.YouTube].map((service) => (
-                    <ServiceAvailibility
-                      url={getUsernameAvailabilityByPlatform(service)?.url}
-                      isAvailable={getUsernameAvailabilityByPlatform(service)?.available}
-                      service={service}
-                      key={service}
-                      t={t}
-                      type={'mediaPlatforms'}
-                    />
-                  ))}
-                </div>
+                  {dataUsernames && (
+                    <div className="grid auto-rows-fr grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
+                      {[Service.Dailymotion, Service.Twitch, Service.YouTube].map((service) => (
+                        <ServiceAvailibility
+                          url={getUsernameAvailabilityByPlatform(service)?.url}
+                          isAvailable={getUsernameAvailabilityByPlatform(service)?.available}
+                          service={service}
+                          key={service}
+                          t={t}
+                          type={'mediaPlatforms'}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </>
               )}
 
-              <h4 className="text-sm font-bold">{t('pages.home.results.proPlatforms.title')}</h4>
+              {isSectionDisplay(Section.PRO) && (
+                <>
+                  <h3 className="font-bold">{t('pages.home.results.proPlatforms.title')}</h3>
 
-              {dataUsernames && (
-                <div className="grid auto-rows-fr grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
-                  {[Service.Product_Hunt, Service.Slack, Service.WordPress, Service.Y_Combinator].map((service) => (
-                    <ServiceAvailibility
-                      url={getUsernameAvailabilityByPlatform(service)?.url}
-                      isAvailable={getUsernameAvailabilityByPlatform(service)?.available}
-                      service={service}
-                      key={service}
-                      t={t}
-                      type={'proPlatforms'}
-                    />
-                  ))}
-                </div>
+                  {dataUsernames && (
+                    <div className="grid auto-rows-fr grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
+                      {[Service.Product_Hunt, Service.Slack, Service.WordPress, Service.Y_Combinator].map((service) => (
+                        <ServiceAvailibility
+                          url={getUsernameAvailabilityByPlatform(service)?.url}
+                          isAvailable={getUsernameAvailabilityByPlatform(service)?.available}
+                          service={service}
+                          key={service}
+                          t={t}
+                          type={'proPlatforms'}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </>
               )}
 
-              <h4 className="text-sm font-bold">{t('pages.home.results.devPlatforms.title')}</h4>
+              {isSectionDisplay(Section.DEV) && (
+                <>
+                  <h3 className="font-bold">{t('pages.home.results.devPlatforms.title')}</h3>
 
-              <div className="grid auto-rows-fr grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
-                {dataUsernames &&
-                  [Service.GitHub].map((service) => (
-                    <ServiceAvailibility
-                      url={getUsernameAvailabilityByPlatform(service)?.url}
-                      isAvailable={getUsernameAvailabilityByPlatform(service)?.available}
-                      service={service}
-                      key={service}
-                      t={t}
-                      type={'devPlatforms'}
-                    />
-                  ))}
+                  <div className="grid auto-rows-fr grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
+                    {dataUsernames &&
+                      [Service.GitHub].map((service) => (
+                        <ServiceAvailibility
+                          url={getUsernameAvailabilityByPlatform(service)?.url}
+                          isAvailable={getUsernameAvailabilityByPlatform(service)?.available}
+                          service={service}
+                          key={service}
+                          t={t}
+                          type={'devPlatforms'}
+                        />
+                      ))}
 
-                {dataNPM && (
-                  <ServiceAvailibility
-                    url={dataNPM.url}
-                    isAvailable={dataNPM.isAvailable}
-                    service={'npmjs'}
-                    t={t}
-                    type={'devPlatforms'}
-                  />
-                )}
-              </div>
+                    {dataNPM && (
+                      <ServiceAvailibility
+                        url={dataNPM.url}
+                        isAvailable={dataNPM.isAvailable}
+                        service={'npmjs'}
+                        t={t}
+                        type={'devPlatforms'}
+                      />
+                    )}
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </>

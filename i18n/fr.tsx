@@ -1,3 +1,4 @@
+import { Section } from '../pages';
 import { Service } from '../pages/api/usernames';
 import enDict from './en';
 
@@ -44,20 +45,25 @@ const lng: typeof enDict = {
         title: 'Résultats pour "{{name}}"',
         expiration: 'Expire le {{date}}',
         domains: 'Noms de domaine',
+        sections: {
+          [Section.DOMAIN]: 'Noms de domaine',
+          [Section.SOCIAL]: 'Réseaux sociaux',
+          [Section.MEDIA]: 'Platesformes multimédias',
+          [Section.PRO]: 'Platesformes professionnelles',
+          [Section.DEV]: 'Plateformes de développeur',
+        },
         socialNetworks: {
           title: 'Plateformes multimédias',
           [Service.Facebook]: 'Facebook',
           [Service.Reddit]: 'Reddit',
           [Service.TikTok]: 'Tiktok',
           [Service.Twitter]: 'Twitter',
-          instagram: 'Instagram',
         },
         mediaPlatforms: {
           title: 'Plateformes multimédias',
           [Service.Dailymotion]: 'Dailymotion',
           [Service.Twitch]: 'Twitch',
           [Service.YouTube]: 'Youtube',
-          kick: 'Kick',
         },
         proPlatforms: {
           title: 'Plateformes Pro',
