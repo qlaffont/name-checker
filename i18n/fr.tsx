@@ -75,7 +75,7 @@ const lng: typeof enDict = {
         devPlatforms: {
           title: 'Plateformes de développeur',
           [Service.GitHub]: 'GitHub',
-          gitlab: 'Gitlab',
+          [Service.Gitlab]: 'Gitlab',
           npmjs: 'NPM',
         },
       },

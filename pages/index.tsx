@@ -392,7 +392,7 @@ const Home = () => {
 
                   <div className="grid auto-rows-fr grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
                     {dataUsernames &&
-                      [Service.GitHub].map((service) => (
+                      [Service.GitHub, Service.Gitlab].map((service) => (
                         <ServiceAvailibility
                           url={getUsernameAvailabilityByPlatform(service)?.url}
                           isAvailable={getUsernameAvailabilityByPlatform(service)?.available}

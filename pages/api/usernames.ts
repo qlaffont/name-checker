@@ -13,6 +13,7 @@ export enum Service {
   Dailymotion = 'dailymotion',
   Facebook = 'facebook',
   GitHub = 'github',
+  Gitlab = 'gitlab',
   PayPal = 'paypal',
   Product_Hunt = 'producthunt',
   Reddit = 'reddit',

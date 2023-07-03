@@ -73,7 +73,7 @@ const lng = {
         devPlatforms: {
           title: 'Dev Platforms',
           [Service.GitHub]: 'GitHub',
-          gitlab: 'Gitlab',
+          [Service.Gitlab]: 'Gitlab',
           npmjs: 'NPM',
         },
       },
