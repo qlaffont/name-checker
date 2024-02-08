@@ -16,7 +16,7 @@
     "*.{ts,tsx}": "eslint --fix"
   },
   "dependencies": {
-    "@headlessui/react": "1.7.15",
+    "@headlessui/react": "1.7.18",
     "@hookform/resolvers": "3.1.1",
     "@radix-ui/react-switch": "^1.0.3",
     "@radix-ui/react-tabs": "^1.0.4",
