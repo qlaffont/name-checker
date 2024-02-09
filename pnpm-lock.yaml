@@ -37,7 +37,7 @@ dependencies:
     version: 16.6.0
   next:
     specifier: 13.4.6
-    version: 13.4.6(@babel/core@7.23.9)(react-dom@18.2.0)(react@18.2.0)(sass@1.63.5)
+    version: 13.4.6(@babel/core@7.23.9)(react-dom@18.2.0)(react@18.2.0)(sass@1.70.0)
   next-seo:
     specifier: 6.0.0
     version: 6.0.0(next@13.4.6)(react-dom@18.2.0)(react@18.2.0)
@@ -164,8 +164,8 @@ devDependencies:
     specifier: 0.3.0
     version: 0.3.0(prettier@2.8.8)
   sass:
-    specifier: 1.63.5
-    version: 1.63.5
+    specifier: 1.70.0
+    version: 1.70.0
   ts-node:
     specifier: 10.9.2
     version: 10.9.2(@types/node@18.19.15)(typescript@5.1.3)
@@ -5839,12 +5839,12 @@ packages:
       react: '>=16.0.0'
       react-dom: '>=16.0.0'
     dependencies:
-      next: 13.4.6(@babel/core@7.23.9)(react-dom@18.2.0)(react@18.2.0)(sass@1.63.5)
+      next: 13.4.6(@babel/core@7.23.9)(react-dom@18.2.0)(react@18.2.0)(sass@1.70.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /next@13.4.6(@babel/core@7.23.9)(react-dom@18.2.0)(react@18.2.0)(sass@1.63.5):
+  /next@13.4.6(@babel/core@7.23.9)(react-dom@18.2.0)(react@18.2.0)(sass@1.70.0):
     resolution: {integrity: sha512-sjVqjxU+U2aXZnYt4Ud6CTLNNwWjdSfMgemGpIQJcN3Z7Jni9xRWbR0ie5fQzCg87aLqQVhKA2ud2gPoqJ9lGw==}
     engines: {node: '>=16.8.0'}
     hasBin: true
@@ -5869,7 +5869,7 @@ packages:
       postcss: 8.4.14
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
-      sass: 1.63.5
+      sass: 1.70.0
       styled-jsx: 5.1.1(@babel/core@7.23.9)(react@18.2.0)
       watchpack: 2.4.0
       zod: 3.21.4
@@ -6798,8 +6798,8 @@ packages:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
     dev: true
 
-  /sass@1.63.5:
-    resolution: {integrity: sha512-Q6c5gs482oezdAp+0fWF9cRisvpy7yfYb64knID0OE8AnMgtkluRPfpGMFjeD4/+M4+6QpJZCU6JRSxbjiktkg==}
+  /sass@1.70.0:
+    resolution: {integrity: sha512-uUxNQ3zAHeAx5nRFskBnrWzDUJrrvpCPD5FNAoRvTi0WwremlheES3tg+56PaVtCs5QDRX5CBLxxKMDJMEa1WQ==}
     engines: {node: '>=14.0.0'}
     hasBin: true
     dependencies:
