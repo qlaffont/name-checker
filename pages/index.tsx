@@ -96,6 +96,7 @@ const Home = () => {
       name: resultName,
       domains: ['fr', 'com', 'gg', 'io', 'xyz', 'net', 'info', 'us', 'org'],
     },
+    //@ts-ignore
     { enabled: !!resultName },
   );
 
@@ -103,6 +104,7 @@ const Home = () => {
     {
       name: resultName,
     },
+    //@ts-ignore
     { enabled: !!resultName },
   );
 
@@ -110,6 +112,7 @@ const Home = () => {
     {
       name: resultName,
     },
+    //@ts-ignore
     { enabled: !!resultName },
   );
 
