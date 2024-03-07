@@ -76,7 +76,7 @@ dependencies:
     version: 0.1.0
   whoiser:
     specifier: ^1.17.2
-    version: 1.17.2
+    version: 1.17.3
   zod:
     specifier: ^3.22.4
     version: 3.22.4
@@ -7358,8 +7358,8 @@ packages:
     dependencies:
       isexe: 2.0.0
 
-  /whoiser@1.17.2:
-    resolution: {integrity: sha512-ZCkcgl7k4216jbIDhZrD581zmgS3ZWnNo8GziV46i/CRqbaT2QsNDyMF1QdqKsma3V0oxh6YMWmvqKvwq7Ah1w==}
+  /whoiser@1.17.3:
+    resolution: {integrity: sha512-4Ywn60p1AeshYCnYQbtQhWYuKVv9T4WMzTlsOV6hhlo/Ut19EY0bNPKWAx3UwFLxYAF9TYOkTIaZ5hjrKcb/vg==}
     engines: {node: '>=15.0.0'}
     dependencies:
       punycode: 2.3.1
