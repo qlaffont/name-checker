@@ -79,7 +79,7 @@ importers:
         version: 0.1.0
       whoiser:
         specifier: ^1.17.2
-        version: 1.17.3
+        version: 1.18.0
       zod:
         specifier: ^3.22.4
         version: 3.23.8
@@ -4059,8 +4059,8 @@ packages:
     engines: {node: '>= 8'}
     hasBin: true
 
-  whoiser@1.17.3:
-    resolution: {integrity: sha512-4Ywn60p1AeshYCnYQbtQhWYuKVv9T4WMzTlsOV6hhlo/Ut19EY0bNPKWAx3UwFLxYAF9TYOkTIaZ5hjrKcb/vg==}
+  whoiser@1.18.0:
+    resolution: {integrity: sha512-QRIGreBuouc8d9i+UVMFqYJSiG7gaoaGX8nKugYDGqnuNLLgjDBwmlKODOIGHveBawza3Kfkk/OuM9VsTUYwaA==}
     engines: {node: '>=15.0.0'}
 
   wrap-ansi@6.2.0:
@@ -8775,7 +8775,7 @@ snapshots:
     dependencies:
       isexe: 2.0.0
 
-  whoiser@1.17.3:
+  whoiser@1.18.0:
     dependencies:
       punycode: 2.3.1
 
