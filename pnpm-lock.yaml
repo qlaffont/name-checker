@@ -82,10 +82,10 @@ importers:
         version: 1.18.0
       zod:
         specifier: ^3.22.4
-        version: 3.23.8
+        version: 3.24.0
       zod-validation-error:
         specifier: ^3.0.1
-        version: 3.4.0(zod@3.23.8)
+        version: 3.4.0(zod@3.24.0)
     devDependencies:
       '@babel/core':
         specifier: 7.26.0
@@ -4314,8 +4314,8 @@ packages:
     peerDependencies:
       zod: ^3.18.0
 
-  zod@3.23.8:
-    resolution: {integrity: sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==}
+  zod@3.24.0:
+    resolution: {integrity: sha512-Hz+wiY8yD0VLA2k/+nsg2Abez674dDGTai33SwNvMPuf9uIrBC9eFgIMQxBBbHFxVXi8W+5nX9DcAh9YNSQm/w==}
 
 snapshots:
 
@@ -9062,8 +9062,8 @@ snapshots:
 
   yocto-queue@1.0.0: {}
 
-  zod-validation-error@3.4.0(zod@3.23.8):
+  zod-validation-error@3.4.0(zod@3.24.0):
     dependencies:
-      zod: 3.23.8
+      zod: 3.24.0
 
-  zod@3.23.8: {}
+  zod@3.24.0: {}
